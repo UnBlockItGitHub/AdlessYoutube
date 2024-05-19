@@ -1,0 +1,5 @@
+title: "ALTube"
+description: "YouTube Without Ads!"
+baseurl: "" # Leave this empty
+url: "https://UnBlockItGitHub.github.io/AdlessYoutube" # Replace with your repository URL
+theme: jekyll-theme-cayman
