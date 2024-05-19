@@ -23,6 +23,17 @@
         iframe {
             margin: 1em 0;
         }
+        .search-container {
+            margin-bottom: 2em;
+        }
+        .search-container input[type="text"] {
+            padding: 0.5em;
+            width: 60%;
+            margin-right: 1em;
+        }
+        .search-container input[type="submit"] {
+            padding: 0.5em 1em;
+        }
     </style>
 </head>
 <body>
@@ -31,16 +42,30 @@
         <p>Watch videos without advertisements</p>
     </header>
     <main>
+        <section class="search-container">
+            <form id="search-form" onsubmit="return searchYouTube()">
+                <input type="text" id="search-input" placeholder="Search for videos">
+                <input type="submit" value="Search">
+            </form>
+        </section>
         <section id="videos">
             <h2>Featured Videos</h2>
             <div>
-                <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/DQclvicqKQ4" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             </div>
             <div>
-                <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/gOv790aukpI" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/VIDEO_ID2" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             </div>
             <!-- Add more videos as needed -->
         </section>
     </main>
+    <script>
+        function searchYouTube() {
+            var query = document.getElementById("search-input").value;
+            var url = "https://www.youtube.com/results?search_query=" + encodeURIComponent(query);
+            window.location.href = url;
+            return false;
+        }
+    </script>
 </body>
 </html>
