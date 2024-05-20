@@ -34,6 +34,18 @@
         .search-container input[type="submit"] {
             padding: 0.5em 1em;
         }
+        .video-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .video-item {
+            margin: 10px;
+        }
+        iframe {
+            width: 100%;
+            height: 315px;
+        }
     </style>
 </head>
 <body>
@@ -48,23 +60,36 @@
                 <input type="submit" value="Search">
             </form>
         </section>
-        <section id="videos">
-            <h2>Featured Videos</h2>
-            <div>
-                <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-            </div>
-            <div>
-                <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/VIDEO_ID2" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-            </div>
-            <!-- Add more videos as needed -->
+        <section id="videos" class="video-container">
+            <!-- Videos will be appended here -->
         </section>
     </main>
     <script>
+        const apiKey = 'AIzaSyDLizqXYMxdRXFKuLiwXNZCZu8owlLf-Qw';
+
         function searchYouTube() {
-            var query = document.getElementById("search-input").value;
-            var url = "https://www.youtube.com/results?search_query=" + encodeURIComponent(query);
-            window.location.href = url;
-            return false;
+            const query = document.getElementById("search-input").value;
+            const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&q=${encodeURIComponent(query)}&key=${apiKey}&maxResults=10`;
+
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    const videosContainer = document.getElementById('videos');
+                    videosContainer.innerHTML = ''; // Clear previous results
+                    data.items.forEach(item => {
+                        const videoId = item.id.videoId;
+                        const title = item.snippet.title;
+                        const videoElement = `
+                            <div class="video-item">
+                                <iframe src="https://www.youtube-nocookie.com/embed/${videoId}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                                <h3>${title}</h3>
+                            </div>`;
+                        videosContainer.insertAdjacentHTML('beforeend', videoElement);
+                    });
+                })
+                .catch(error => console.error('Error fetching YouTube data:', error));
+
+            return false; // Prevent form submission
         }
     </script>
 </body>
